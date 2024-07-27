@@ -82,6 +82,21 @@ De la dirección actual (rojo) se sigue la ruta indicada por la dirección al de
 
 El objetivo es estar en la misma ubicación del Makefile. Una vez en la carpeta build se pueden ejecutar las recetas. Estos deben ser ingresados en la terminal OSS-CAD-SUITE como se indica al inicio de esta guía.
 
+#### Para la verificación de los diseños y simulación tenemos los siguientes comandos:
+
+Para ejecutar el testbench y simular el diseño:
+```sh
+make test
+```
+Ejecute este comando en la terminal, esto generará en la carpeta build un archivo .vcd que contiene las señales simuladas en función del tiempo. Además se mostrará en la consola los resultados o tareas del testbench.
+
+Para visualizar los diagramas de tiempo con GTKwave:
+```sh
+make wv
+```
+
+Ejecute este comando en la terminal, esto abrirá una ventana de gtkwave para visualizar las señales en función del tiempo.
+
 #### Para la implementación física tenemos los siguientes comandos:
 
 Para verificar la sintaxis y sintetizar los diseños RTL:
@@ -108,23 +123,10 @@ make load
 ```
 Conecte la FPGA y ejecute este comando en la terminal, esto cargará el bitstream en la FPGA. La información del proceso es mostrada en la consola.
 
-Para ejecutar todos los comandos anteriores de una sola vez:
+Para ejecutar todos los comandos de implementación física anteriores de una sola vez:
 ```sh
 make all
 ```
-Ejecute este comando en la terminal, esto ejecutará todos los comandos desde el RTL hasta la carga en la FPGA.
+Ejecute este comando en la terminal, esto ejecutará todos los comandos para pasar desde el RTL hasta la carga en la FPGA.
 
-#### Para la verificación de los diseños y simulación tenemos los siguientes comandos:
 
-Para ejecutar el testbench y simular el diseño:
-```sh
-make test
-```
-Ejecute este comando en la terminal, esto generará en la carpeta build un archivo .vcd que contiene las señales simuladas en función del tiempo. Además se mostrará en la consola los resultados o tareas del testbench.
-
-Para visualizar los diagramas de tiempo con GTKwave:
-```sh
-make wv
-```
-
-Ejecute este comando en la terminal, esto abrirá una ventana de gtkwave para visualizar las señales en función del tiempo.
