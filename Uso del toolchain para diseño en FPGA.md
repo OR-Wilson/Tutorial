@@ -136,6 +136,9 @@ Navegue por las carpetas usando la terminal hasta llegar a la carpeta build del 
 ```sh
 cd ..
 ```
+
+Y con la tecla tab en el teclado, puede autocompletar rutas.
+
 Simule el diseño, visualice los diagramas de tiempos y cargue el diseño en la FPGA.
 
 ### Contenido de un Makefile
@@ -194,3 +197,5 @@ Por último, se tienen las recetas con los comandos. Estos no se deberían de mo
 ![alt text](<Screenshot from 2024-07-27 16-07-51.png>)
 
 ![alt text](image-11.png)
+
+Con un primer acercamiento a las herramientas y su uso, puede continuar con la siguiente guía [Crear diseños propios: verificarlos, sintetizarlos e implementarlos en la FPGA](https://github.com/DJosueMM/open_source_fpga_environment/wiki/Primer-dise%C3%B1o,-desde-el-RTL-hasta-el-bitstream).
