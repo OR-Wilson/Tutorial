@@ -27,7 +27,8 @@ git clone https://github.com/DJosueMM/open_source_fpga_environment.git
 
 ## Uso de la herramienta en VSC
 
-Para comenzar abra el repositorio clonado en VSC. Cuando quiera comenzar un proyecto desde cero puede abrir una carpeta con la plantilla o crear su propio arreglo de carpetas. 
+Para comenzar, abra el repositorio clonado en VSC. 
+Cuando quiera comenzar un proyecto desde cero puede abrir una carpeta con la plantilla o crear su propio arreglo de carpetas. 
 
 ### Inicializar la terminal del toolchain:
 
@@ -69,7 +70,6 @@ Todo el toolchain tiene una gran cantidad de comandos, opciones, banderas, etc. 
 En la carpeta build de los ejemplos, se encuentra el Makefile que contiene todos los comandos para cada etapa del desarrollo. Cuando desarrollen sus propios proyectos, se recomienda que generen su respectivo Makefile en su carpeta build, siguiendo las plantillas dadas.
 
 Para probar esto, entre a la carpeta build del ejemplo BlinkyLed. 
-
 Con el comando **cd** se ingresa a una dirección relativa a la actual. Entonces para ir a la deseada ingresamos el siguiente comando:
 
 ```sh
@@ -80,3 +80,117 @@ De la dirección actual (rojo) se sigue la ruta indicada por la dirección al de
 
 ![alt text](image-9.png)
 
+El objetivo es estar en la misma ubicación del Makefile. Una vez en la carpeta build se pueden ejecutar las recetas. Estos deben ser ingresados en la terminal OSS-CAD-SUITE como se indica anteriormente en esta guía.
+
+#### Para la verificación de los diseños y simulación tenemos los siguientes comandos:
+
+Para ejecutar el testbench y simular el diseño:
+```sh
+make test
+```
+Ejecute este comando en la terminal, esto generará en la carpeta build un archivo .vcd que contiene las señales simuladas en función del tiempo. Además se mostrará en la consola los resultados o tareas del testbench.
+
+Para visualizar los diagramas de tiempo con GTKwave:
+```sh
+make wv
+```
+
+Ejecute este comando en la terminal, esto abrirá una ventana de gtkwave para visualizar las señales en función del tiempo.
+
+#### Para la implementación física tenemos los siguientes comandos:
+
+Para verificar la sintaxis y sintetizar los diseños RTL:
+```sh
+make synth
+```
+Ejecute este comando en la terminal, esto generará en la carpeta build un archivo .json con el diseño sintetizado y un logfile con la información del proceso de síntesis. Si existe un error de sintaxis o de diseño, será reportado en este logfile.
+
+Para realizar el place and route del diseño sintetizado en la FPGA:
+```sh
+make pnr
+```
+Ejecute este comando en la terminal, esto generará en la carpeta build un archivo .json con el diseño implementado en el espacio físico de la FPGA y un logfile con la información del proceso de place and route. Si existe un error, será reportado en este logfile.
+
+Para generar el bitstream que contiene el diseño:
+```sh
+make bitstream
+```
+Ejecute este comando en la terminal, esto generará en la carpeta build un archivo .fs que tiene una cadena binaria con toda la información del diseño.
+
+Para cargar el bitstream en la FPGA a través del puerto serial de la computadora:
+```sh
+make load
+```
+Conecte la FPGA y ejecute este comando en la terminal, esto cargará el bitstream en la FPGA. La información del proceso es mostrada en la consola.
+
+Para ejecutar todos los comandos de implementación física anteriores de una sola vez:
+```sh
+make all
+```
+Ejecute este comando en la terminal, esto ejecutará todos los comandos para pasar desde el RTL hasta la carga en la FPGA.
+
+#### Evaluación de lo aprendido
+
+Navegue por las carpetas usando la terminal hasta llegar a la carpeta build del ejemplo __lcd_spi__. Con el comando cd .. regresa a una carpeta superior.
+
+```sh
+cd ..
+```
+Simule el diseño, visualice los diagramas de tiempos y cargue el diseño en la FPGA.
+
+### Contenido de un Makefile
+
+En esta sección se muestra como editar el Makefile para utilizarlo en cualquier proyecto.
+
+Al inicio del Makefile, se pueden apreciar distintas variables. Estas variables son las únicas que se deben editar en función de las fuentes de cada proyecto.
+
+![alt text](<Screenshot from 2024-07-27 14-12-18.png>)
+
+ - __Board__: es la tarjeta en la que se encuentra el chip FPGA. Esta variable no se debe editar siempre que se use la FPGA  en la tarjeta TangNano9k.
+ - __Family__: indica a la familia de chips FPGA al que pertenece el dispositivo. Esta variable no se debe editar siempre que se use la FPGA en la TangNano9k.
+ - __Device__: es el chip FPGA que se encuentra en la tarjeta TangNano9k. Esta variable no se debe editar siempre que se use la FPGA TangNano9k.
+  
+En cuanto a las variables que se deben revisar y modificar están las siguientes:
+
+- __PROYECT__: esta variable no tiene ningun efecto funcional, solo indica los nombres de los archivos que se generarán. Esta se debe modificar con un nombre referente al proyecto que se esté realizando y es a criterio personal.
+
+- __SOURCES__: indica la ruta a cada archivo de diseño RTL, en nuestro caso es la carpeta design dentro de src.
+    - Se puede indicar la ruta a cada archivo individualmente.
+    - Con el comando wildcard, se incluyen todos los archivos .v o .sv que se encuentren en la carpeta.
+    - Cada método es válido y depende de las necesidades de cada uno. Solamente se debe respetar la sintaxis que se muestra en la plantilla.
+
+- __TESTBENCH__: indica la ruta a cada archivo de simulación RTL, en nuestro caso están en la carpeta sim dentro de src.
+    - Se debe indicar la ruta al archivo .v o .sv que contiene el testbench a ser simulado.
+
+- __CONSTRAINTS__: indica la ruta al archivo de constraints .cst, en nuestro caso están en la carpeta constr dentro de src.
+    - Se debe indicar la ruta al archivo .cst que contiene los constraints para la implementación física.
+
+- __TOP_DESIGN__: indica el nombre del módulo con mayor jerarquía, el modulo top. No se debe poner la ruta al archivo, sino el nombre del módulo dentro del archivo. Por ejemplo:
+
+    ![alt text](<Screenshot from 2024-07-27 14-47-41.png>)
+    
+    el nombre del módulo es el resaltado en la figura anterior __module_spi_lcd__.
+
+- __TOP_TB__: indica el nombre del módulo del testbench a simular. No se debe poner la ruta al archivo, sino el nombre del módulo dentro del archivo. Por ejemplo:
+
+    ![alt text](<Screenshot from 2024-07-27 14-51-36.png>)
+
+    el nombre del módulo del testbench es el resaltado en la figura anterior __module_top_deco_gray_tb__.
+
+- __VCD_FILE__: indica el nombre del archivo vcd que se generará al simular el testbench. No se debe poner la ruta al archivo, sino el nombre del dump file que se especifica en el testbench junto con su extensión. Por ejemplo:
+
+    ![alt text](<Screenshot from 2024-07-27 15-12-54.png>)
+
+    El nombre del dumpfile se indica con el comando __$dumpfile__, en este caso __module_top_deco_gray.vcd__ y esto es lo que se coloca en la variable VCD_FILE.
+
+    Este bloque deberá ir en todos los testbench que realicen. Se compone de:
+    - __$dumpfile__ para generar el archivo que contendrá la información. 
+    - __$dumpvars__ donde se indica el nombre del modulo del testbench. Tal como se explica en la variable TOP_TB.
+    
+    Esto lo que hace es almacenar los datos de simulación en un archivo vcd (value change dump). Que es indispensable para visualizar los diagramas de tiempo.
+
+Por último, se tienen las recetas con los comandos. Estos no se deberían de modificar, ya que fueron escritos en función de las variables anteriormente explicadas.
+
+![alt text](<Screenshot from 2024-07-27 16-07-51.png>)
+
+![alt text](image-11.png)
