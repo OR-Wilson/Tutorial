@@ -131,7 +131,12 @@ Ejecute este comando en la terminal, esto ejecutará todos los comandos para pas
 
 #### Evaluación de lo aprendido
 
-Navegue por las carpetas usando la terminal hasta llegar a la carpeta build del ejemplo __lcd_spi__. Simule el diseño, visualice los diagramas de tiempos y cargue el diseño en la FPGA.
+Navegue por las carpetas usando la terminal hasta llegar a la carpeta build del ejemplo __lcd_spi__. Con el comando cd .. regresa a una carpeta superior.
+
+```sh
+cd ..
+```
+Simule el diseño, visualice los diagramas de tiempos y cargue el diseño en la FPGA.
 
 ### Contenido de un Makefile
 
