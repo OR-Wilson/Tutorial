@@ -15,7 +15,7 @@ Se recomienda el uso de esta jerarquía de carpetas para seguir este tutorial y 
 
 ![alt text](image-6.png)
 
-Se le proporciona la ![plantilla](http) que puede utilizar para cada proyecto.
+Se le proporciona la [plantilla](https://github.com/DJosueMM/EL-3307_template) que puede utilizar para cada proyecto.
 
 ## Clonar el repositorio
 
